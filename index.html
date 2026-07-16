@@ -379,7 +379,7 @@ function initAfterUnlock(){
       const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64ToBuf(ENC_SALT),iterations:ENC_ITER,hash:'SHA-256'},keyMaterial,{name:'AES-GCM',length:256},false,['decrypt']);
       const plainBuf=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64ToBuf(ENC_IV)},key,b64ToBuf(ENC_DATA));
       const payload=JSON.parse(new TextDecoder().decode(plainBuf));
-      document.getElementById('bookContent').innerHTML=payload.book;
+      document.getElementById('bookContent').outerHTML=payload.book;
       SPOTS=payload.spots;QUIZ=payload.quiz;
       return true;
     }catch(e){return false;}
