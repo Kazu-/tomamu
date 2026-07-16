@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>北海道 夏の旅 2026 ｜ 旅のしおり</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--mist:#E9F1F4;--ink:#153845;--ink-soft:#3E5C68;--sky:#4E8FB5;--sky-deep:#2F6B8E;--pasture:#7C9A57;--corn:#E7A93A;--cloud:#FFFFFF;--line:#D3E0E6;--paper:#FBF8F1;--shadow:0 6px 24px rgba(21,56,69,.08)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:"Zen Kaku Gothic New",sans-serif;color:var(--ink);background:#DCE7EC;line-height:1.7;letter-spacing:.01em}
+
+  /* ===== BOOK ===== */
+  .bookwrap{position:relative;max-width:720px;margin:0 auto;padding:12px 10px 8px}
+  .book{display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;height:86vh;border-radius:16px;scrollbar-width:none}
+  .book::-webkit-scrollbar{display:none}
+  .page{position:relative;flex:0 0 100%;scroll-snap-align:center;height:100%;overflow-y:auto;overflow-x:hidden;background:var(--paper);border-radius:16px;padding:22px 20px 44px;
+    box-shadow:0 12px 34px rgba(21,56,69,.18);
+    background-image:linear-gradient(90deg,rgba(21,56,69,.07),rgba(21,56,69,0) 5%,rgba(21,56,69,0) 96%,rgba(21,56,69,.03));-webkit-overflow-scrolling:touch}
+  .page::after{content:"";position:absolute;top:0;right:0;bottom:0;width:12px;background:linear-gradient(90deg,rgba(21,56,69,0),rgba(21,56,69,.05));border-radius:0 16px 16px 0;pointer-events:none}
+  .page-num{position:absolute;bottom:12px;right:18px;font-family:"Zen Maru Gothic";font-size:.72rem;color:#B4A88C;z-index:2}
+  .nav{position:absolute;top:50%;transform:translateY(-50%);z-index:30;width:40px;height:40px;border-radius:50%;border:none;background:rgba(255,255,255,.92);box-shadow:0 3px 10px rgba(21,56,69,.22);font-size:1.4rem;line-height:1;color:var(--sky-deep);cursor:pointer;display:grid;place-items:center;font-family:"Zen Maru Gothic"}
+  .nav:active{transform:translateY(-50%) scale(.92)}
+  .nav.prev{left:0}.nav.next{right:0}
+  .nav:disabled{opacity:.28;cursor:default}
+  .pager-dots{display:flex;justify-content:center;gap:7px;margin-top:10px}
+  .dot{width:8px;height:8px;border-radius:50%;background:#B7C7CF;transition:all .25s;cursor:pointer}
+  .dot.active{background:var(--sky);width:22px;border-radius:5px}
+
+  /* ===== COVER ===== */
+  .cover{background:linear-gradient(180deg,#2B5B7A 0%,#4E8FB5 48%,#EBC77F 100%);color:#fff;text-align:center;background-image:none;overflow:hidden;padding-top:38px}
+  .cover::after{display:none}
+  .cover .eyebrow{font-family:"Zen Maru Gothic";font-weight:700;letter-spacing:.32em;font-size:.72rem;opacity:.92;margin-bottom:14px;padding-left:.32em}
+  .cover h1{font-family:"Zen Maru Gothic";font-weight:900;font-size:2.6rem;line-height:1.2;text-shadow:0 2px 12px rgba(21,56,69,.28)}
+  .cover h1 .sub{display:block;font-size:1rem;font-weight:700;margin-top:10px;letter-spacing:.05em}
+  .cover .dates{margin-top:20px;display:inline-flex;align-items:center;gap:10px;font-family:"Zen Maru Gothic";font-weight:700;font-size:1rem;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.55);padding:8px 20px;border-radius:999px}
+  .cover .dates b{font-size:1.1rem}.nights{font-size:.78rem;opacity:.92;font-weight:500}
+  .cover-scene{margin:18px -20px 0;width:calc(100% + 40px)}
+  .cover-scene svg{width:100%;height:96px;display:block}
+  .cover .page-num{color:rgba(255,255,255,.85)}
+  .usage{margin-top:8px;font-size:.76rem;color:rgba(255,255,255,.92);font-weight:700;font-family:"Zen Maru Gothic";line-height:1.9}
+
+  /* ===== GAME PANEL ===== */
+  .gamepanel{margin:16px auto 0;max-width:420px;background:rgba(255,255,255,.94);border-radius:16px;padding:14px 16px;box-shadow:0 6px 20px rgba(21,56,69,.18);color:var(--ink);text-align:left}
+  .gamepanel h4{font-family:"Zen Maru Gothic";font-weight:900;font-size:.98rem;color:var(--sky-deep)}
+  .gp-sub{font-size:.76rem;color:var(--ink-soft);margin-top:3px;line-height:1.6}
+  .gp-bar{height:14px;border-radius:8px;background:#DBE7EC;overflow:hidden;margin-top:11px}
+  .gp-fill{height:100%;width:0;border-radius:8px;background:linear-gradient(90deg,#7FBBD9,#8FCB7A,#F0C24A);transition:width .5s ease}
+  .gp-count{display:flex;justify-content:space-between;margin-top:7px;font-family:"Zen Maru Gothic";font-weight:700;font-size:.82rem;color:var(--ink)}
+  .gp-badge{margin-top:11px;display:none;background:#FFF3D6;border-radius:10px;padding:9px 12px;font-family:"Zen Maru Gothic";font-weight:900;color:#9A6A12;font-size:.86rem;text-align:center}
+  .gp-badge.show{display:block;animation:pop .4s}
+  @keyframes pop{0%{transform:scale(.7)}60%{transform:scale(1.08)}100%{transform:scale(1)}}
+
+  /* ===== DAY ===== */
+  .day-head{display:flex;align-items:baseline;gap:14px;margin-bottom:4px;padding-left:2px}
+  .day-num{font-family:"Zen Maru Gothic";font-weight:900;font-size:2.2rem;color:var(--sky);line-height:1}
+  .day-num small{font-size:.72rem;display:block;letter-spacing:.28em;color:var(--pasture);margin-bottom:3px}
+  .day-date{font-family:"Zen Maru Gothic";font-weight:700;font-size:1.05rem}
+  .day-date span{font-size:.82rem;color:var(--ink-soft);margin-left:6px;font-weight:500}
+  .day-title{margin-left:auto;font-size:.78rem;color:var(--sky-deep);font-weight:700;text-align:right;max-width:44%}
+  .day-rule{height:2px;background:linear-gradient(90deg,var(--sky),transparent);border-radius:2px;margin:8px 0 4px}
+  .timeline{position:relative;margin:12px 0 0;padding-left:24px}
+  .timeline::before{content:"";position:absolute;left:6px;top:12px;bottom:12px;width:2px;background:linear-gradient(180deg,var(--sky),var(--pasture));border-radius:2px}
+  .stop{position:relative;padding:9px 0}
+  .stop::before{content:"";position:absolute;left:-23px;top:24px;width:11px;height:11px;border-radius:50%;background:#fff;border:3px solid var(--sky);z-index:1}
+  .stop.corn::before{border-color:var(--corn);background:#FFF6E4}
+  .stop.green::before{border-color:var(--pasture)}
+  .card{display:flex;gap:12px;align-items:center;background:var(--cloud);border-radius:14px;box-shadow:var(--shadow);padding:11px 12px;border-left:4px solid var(--line);cursor:pointer;transition:transform .15s ease,box-shadow .15s ease;position:relative;-webkit-tap-highlight-color:transparent}
+  .card:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(21,56,69,.14)}
+  .card:active{transform:translateY(0) scale(.99)}
+  .card:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+  .stop.corn .card{border-left-color:var(--corn)}.stop.green .card{border-left-color:var(--pasture)}.stop.sky .card{border-left-color:var(--sky)}
+  .card-body{flex:1;min-width:0}
+  .thumb{flex:0 0 62px;width:62px;height:62px;border-radius:11px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(21,56,69,.07);position:relative}
+  .thumb svg{width:100%;height:100%;display:block}
+  .chev{position:absolute;right:11px;bottom:9px;font-size:.64rem;color:var(--sky);font-weight:700;font-family:"Zen Maru Gothic";opacity:.75}
+  .time{font-family:"Zen Maru Gothic";font-weight:700;font-size:.82rem;color:var(--sky-deep);letter-spacing:.03em}
+  .stop h3{font-family:"Zen Maru Gothic";font-weight:700;font-size:.98rem;margin-top:1px;line-height:1.35}
+  .stop .note{font-size:.78rem;color:var(--ink-soft);margin-top:3px}
+  .stop .ref{display:inline-block;font-family:"Zen Maru Gothic";font-weight:700;background:#FBF3DE;color:#9A6A12;border-radius:6px;padding:1px 8px;font-size:.74rem;margin-top:5px;letter-spacing:.05em}
+  .route{display:flex;align-items:center;gap:8px;font-family:"Zen Maru Gothic";font-weight:700;font-size:1rem;margin-top:2px}
+  .route .arw{color:var(--sky)}
+  .airtime{font-size:.76rem;color:var(--ink-soft);font-weight:500;margin-top:1px}
+
+  /* ===== INFO / END PAGE ===== */
+  .page-title{font-family:"Zen Maru Gothic";font-weight:900;font-size:1.3rem;color:var(--sky-deep);margin-bottom:4px}
+  .info{background:var(--cloud);border-radius:16px;box-shadow:var(--shadow);padding:16px 18px;display:grid;gap:12px;margin-top:8px}
+  .info-row{display:flex;gap:13px;align-items:flex-start}
+  .info-ico{flex:0 0 38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:1.1rem;background:var(--mist)}
+  .info-row h4{font-family:"Zen Maru Gothic";font-weight:700;font-size:.82rem;color:var(--sky-deep);letter-spacing:.04em}
+  .info-row p{font-size:.85rem;color:var(--ink-soft);margin-top:2px}
+  .ref2{display:inline-block;font-family:"Zen Maru Gothic";font-weight:700;background:#FBF3DE;color:#9A6A12;border-radius:6px;padding:1px 8px;font-size:.78rem;margin-top:3px;letter-spacing:.06em}
+  .tel{color:var(--sky-deep);font-weight:700}
+  .memo{margin-top:16px;background:#F3F8FA;border-radius:14px;padding:14px 16px}
+  .memo h4{font-family:"Zen Maru Gothic";font-weight:900;font-size:.92rem;color:var(--sky-deep)}
+  .memo ul{margin:8px 0 0;padding-left:18px;font-size:.84rem;color:var(--ink-soft)}
+  .memo li{margin:3px 0}
+  .end-mark{text-align:center;margin-top:22px;font-family:"Zen Maru Gothic";font-weight:900;color:var(--sky);font-size:1.05rem}
+  .end-sub{text-align:center;color:var(--ink-soft);font-size:.82rem;margin-top:4px}
+
+  /* ===== SHEET ===== */
+  .backdrop{position:fixed;inset:0;background:rgba(21,56,69,.45);opacity:0;pointer-events:none;transition:opacity .28s ease;z-index:50;backdrop-filter:blur(2px)}
+  .backdrop.open{opacity:1;pointer-events:auto}
+  .sheet{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--cloud);border-radius:22px 22px 0 0;max-width:680px;margin:0 auto;max-height:88vh;overflow:hidden;transform:translateY(102%);transition:transform .32s cubic-bezier(.22,.8,.3,1);box-shadow:0 -10px 40px rgba(21,56,69,.25);display:flex;flex-direction:column}
+  .sheet.open{transform:translateY(0)}
+  @media(prefers-reduced-motion:reduce){.sheet,.backdrop{transition:none}}
+  .sheet-grip{width:44px;height:5px;border-radius:3px;background:#CBD9E0;margin:10px auto 0;flex:0 0 auto}
+  .sheet-hero{position:relative;height:148px;flex:0 0 auto;overflow:hidden;margin:12px 14px 0;border-radius:16px}
+  .sheet-hero svg{width:100%;height:100%;display:block}
+  .sheet-close{position:absolute;top:20px;right:22px;z-index:2;width:34px;height:34px;border:none;border-radius:50%;background:rgba(255,255,255,.85);color:var(--ink);font-size:1.2rem;line-height:1;cursor:pointer;box-shadow:0 2px 8px rgba(21,56,69,.18)}
+  .sheet-scroll{overflow-y:auto;padding:16px 22px 30px;-webkit-overflow-scrolling:touch}
+  .sheet-time{font-family:"Zen Maru Gothic";font-weight:700;font-size:.82rem;color:var(--sky-deep);letter-spacing:.04em}
+  .sheet-title{font-family:"Zen Maru Gothic";font-weight:900;font-size:1.4rem;margin-top:2px;line-height:1.3}
+  .sheet-lead{font-size:.9rem;color:var(--ink-soft);margin-top:8px}
+  .tip{margin-top:14px;padding-left:14px;border-left:3px solid var(--mist)}
+  .tip.h-corn{border-left-color:var(--corn)}.tip.h-green{border-left-color:var(--pasture)}.tip.h-sky{border-left-color:var(--sky)}
+  .tip h5{font-family:"Zen Maru Gothic";font-weight:700;font-size:.92rem;color:var(--ink)}
+  .tip p{font-size:.86rem;color:var(--ink-soft);margin-top:2px}
+  .sheet-note{margin-top:18px;background:#FBF3DE;border-radius:12px;padding:11px 14px;font-size:.82rem;color:#8A5E10;line-height:1.6}
+  .sheet-ref{display:inline-block;font-family:"Zen Maru Gothic";font-weight:700;background:#F0F6F8;color:var(--sky-deep);border-radius:8px;padding:4px 12px;font-size:.84rem;margin-top:12px;letter-spacing:.06em}
+  .sheet-maps{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+  .map-link{display:inline-flex;align-items:center;gap:5px;font-family:"Zen Maru Gothic";font-weight:700;font-size:.83rem;text-decoration:none;color:#2F6B8E;background:#EAF4F8;border:1px solid #CFE3EC;border-radius:999px;padding:8px 14px}
+  .map-link:hover{background:#DCEEF4}
+  /* stamp + quiz */
+  .stampbtn{flex:0 0 38px;width:38px;height:38px;border-radius:50%;border:2px dashed #C2D2DA;background:#fff;display:grid;place-items:center;cursor:pointer;font-size:1.1rem;color:#B9CBD4;transition:transform .15s;-webkit-tap-highlight-color:transparent;align-self:center;padding:0}
+  .stampbtn:hover{transform:scale(1.08)}.stampbtn:active{transform:scale(.92)}
+  .stampbtn.done{border-style:solid;border-color:var(--corn);background:#FFF3D6;color:#E7A93A;animation:stamp .38s}
+  @keyframes stamp{0%{transform:scale(.4) rotate(-18deg);opacity:.3}60%{transform:scale(1.18) rotate(7deg)}100%{transform:scale(1) rotate(0)}}
+  .thumb-stamp{position:absolute;inset:0;place-items:center;background:rgba(231,169,58,.16)}
+  .thumb-stamp span{background:var(--corn);color:#fff;border-radius:8px;padding:2px 6px;font-family:"Zen Maru Gothic";font-weight:900;font-size:.68rem;transform:rotate(-12deg);box-shadow:0 2px 6px rgba(0,0,0,.22)}
+  .bigstamp{margin-top:20px;width:100%;border:none;border-radius:14px;padding:14px;font-family:"Zen Maru Gothic";font-weight:900;font-size:1rem;cursor:pointer;color:#fff;background:linear-gradient(90deg,#F0B84A,#E79A3A);box-shadow:0 4px 14px rgba(231,169,58,.35);transition:transform .12s}
+  .bigstamp:active{transform:scale(.98)}
+  .bigstamp.done{background:linear-gradient(90deg,#7CB86A,#5D9A4C);box-shadow:0 4px 14px rgba(124,184,106,.35)}
+  .quiz{margin-top:20px;background:#F3F8FA;border-radius:14px;padding:14px 15px}
+  .quiz-q{font-family:"Zen Maru Gothic";font-weight:700;font-size:.95rem;color:var(--ink);line-height:1.5}
+  .quiz-opts{display:flex;flex-direction:column;gap:8px;margin-top:11px}
+  .quiz-opt{font-family:"Zen Maru Gothic";font-weight:700;font-size:.92rem;text-align:left;padding:10px 14px;border-radius:10px;border:2px solid #D3E0E6;background:#fff;color:var(--ink);cursor:pointer;transition:transform .1s}
+  .quiz-opt:hover{transform:translateX(2px)}.quiz-opt:disabled{cursor:default}
+  .quiz-opt.correct{border-color:#7CB86A;background:#E8F5E1;color:#4C7A3A}
+  .quiz-opt.wrong{border-color:#E68A8A;background:#FBE9E9;animation:shake .4s}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+  .quiz-fb{margin-top:11px;font-weight:700;font-size:.86rem;min-height:1.2em;line-height:1.5}
+  .quiz-fb.ok{color:#4C7A3A}.quiz-fb.ng{color:#C05A5A}
+  .confetti{position:fixed;top:-14px;width:9px;height:15px;z-index:100;border-radius:2px;pointer-events:none;animation:fall 2.2s linear forwards}
+  @keyframes fall{to{transform:translateY(108vh) rotate(560deg);opacity:.85}}
+  @media(prefers-reduced-motion:reduce){.confetti{display:none}}
+
+  /* ===== LOGIN GATE ===== */
+  .gate{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(180deg,#2B5B7A 0%,#4E8FB5 55%,#EBC77F 100%);transition:opacity .6s ease}
+  .gate.gone{opacity:0;pointer-events:none}
+  .gate-inner{text-align:center;color:#fff;max-width:340px;width:100%}
+  .gift{width:186px;height:172px;margin:0 auto 2px}
+  .gift svg{width:100%;height:100%;overflow:visible;display:block}
+  .gate-title{font-family:"Zen Maru Gothic";font-weight:900;font-size:1.15rem;margin-top:8px;text-shadow:0 2px 8px rgba(21,56,69,.3)}
+  .pass-dots{display:flex;justify-content:center;gap:14px;margin:16px 0 4px}
+  .pass-dots span{width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.35);transition:all .2s}
+  .pass-dots span.on{background:#fff;transform:scale(1.15);box-shadow:0 0 10px rgba(255,255,255,.7)}
+  .keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:236px;margin:14px auto 0}
+  .key{font-family:"Zen Maru Gothic";font-weight:700;font-size:1.3rem;color:#fff;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);border-radius:14px;padding:12px 0;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .1s,background .15s}
+  .key:active{transform:scale(.94);background:rgba(255,255,255,.32)}
+  .key.ghost{background:transparent;border:none;cursor:default}
+  .gate-msg{min-height:1.4em;margin-top:12px;font-family:"Zen Maru Gothic";font-weight:700;font-size:.9rem;color:#FFE7B0}
+  .gate.shake .gift{animation:gshake .4s}
+  @keyframes gshake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+  .gate-hint{margin-top:16px;font-size:.76rem;color:rgba(255,255,255,.85);font-weight:700;font-family:"Zen Maru Gothic"}
+  #giftBow{transform-origin:95px 62px;transition:transform .6s ease,opacity .6s ease}
+  .gift.open #giftBow{transform:translateY(-72px) scale(.25) rotate(45deg);opacity:0}
+  .gift-strap{transition:opacity .5s ease .25s}
+  .gift.open .gift-strap{opacity:0}
+  #giftLid{transform-origin:95px 92px;transition:transform .7s cubic-bezier(.3,1.5,.5,1) .45s}
+  .gift.open #giftLid{transform:translateY(-70px) rotate(-10deg)}
+  .gift-spark{opacity:0}
+  .gift.open .gift-spark{animation:sparkle .8s ease .6s forwards}
+  @keyframes sparkle{0%{opacity:0;transform:scale(.4)}60%{opacity:1;transform:scale(1.12)}100%{opacity:1;transform:scale(1)}}
+  .confetti{z-index:999}
+  @media(prefers-reduced-motion:reduce){#giftBow,.gift-strap,#giftLid{transition:none}.gift.open .gift-spark{animation:none;opacity:1}}
+
+  @media(max-width:420px){.cover h1{font-size:2.15rem}.stampbtn{flex-basis:34px;width:34px;height:34px;font-size:1rem}.day-title{max-width:100%;flex-basis:100%;text-align:left;margin:4px 0 0 0}.day-head{flex-wrap:wrap}}
+  @media print{
+    body{background:#fff}
+    .nav,.pager-dots,.backdrop,.sheet,.confetti,.chev{display:none}
+    .book{display:block;height:auto;overflow:visible;border-radius:0}
+    .page{flex:none;height:auto;box-shadow:none;border-radius:0;page-break-after:always;background:#fff;background-image:none}
+    .page::after{display:none}
+    .cover{color:#153845 !important;background:#EAF2F5 !important}
+    .cover h1,.usage,.cover .page-num{color:#153845 !important;text-shadow:none}
+    .card{cursor:default;border:1px solid var(--line);box-shadow:none}
+    svg{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN GATE ===== -->
+<div class="gate" id="gate">
+  <div class="gate-inner">
+    <div class="gift" id="gift">
+      <svg viewBox="0 0 190 172" aria-hidden="true">
+        <rect x="45" y="95" width="100" height="70" rx="6" fill="#6BA8C9"/>
+        <rect x="45" y="95" width="100" height="70" rx="6" fill="#5C9BBE" opacity=".0"/>
+        <g id="giftLid"><rect x="37" y="76" width="116" height="26" rx="6" fill="#4E8FB5"/></g>
+        <g class="gift-strap">
+          <rect x="86" y="74" width="18" height="92" fill="#E7A93A"/>
+          <rect x="45" y="120" width="100" height="18" fill="#E7A93A"/>
+        </g>
+        <g id="giftBow">
+          <path d="M92 66 l-7 30 l9 -8 Z" fill="#E09A2E"/>
+          <path d="M98 66 l7 30 l-9 -8 Z" fill="#E09A2E"/>
+          <ellipse cx="80" cy="60" rx="15" ry="10" fill="#E7A93A" transform="rotate(-18 80 60)"/>
+          <ellipse cx="110" cy="60" rx="15" ry="10" fill="#E7A93A" transform="rotate(18 110 60)"/>
+          <ellipse cx="82" cy="60" rx="6" ry="4" fill="#C9821E" transform="rotate(-18 82 60)"/>
+          <ellipse cx="108" cy="60" rx="6" ry="4" fill="#C9821E" transform="rotate(18 108 60)"/>
+          <circle cx="95" cy="62" r="8" fill="#F0C24A"/>
+          <circle cx="95" cy="62" r="4" fill="#C9821E"/>
+        </g>
+        <g class="gift-spark">
+          <path d="M95 62 l3 8 l8 3 l-8 3 l-3 8 l-3 -8 l-8 -3 l8 -3Z" fill="#FFF3C4"/>
+          <circle cx="70" cy="78" r="3.5" fill="#FBE6A0"/>
+          <circle cx="122" cy="74" r="3.5" fill="#FBE6A0"/>
+          <path d="M112 58 l1.6 4.5 l4.5 1.6 l-4.5 1.6 l-1.6 4.5 l-1.6 -4.5 l-4.5 -1.6 l4.5 -1.6Z" fill="#fff"/>
+        </g>
+      </svg>
+    </div>
+    <div class="gate-title">🎁 あいことばを いれてね</div>
+    <div class="pass-dots" id="passDots"><span></span><span></span><span></span><span></span></div>
+    <div class="keypad" id="keypad"></div>
+    <div class="gate-msg" id="gateMsg"></div>
+    <div class="gate-hint">かぞくだけの ひみつの しおり</div>
+  </div>
+</div>
+
+<!-- ILLUSTRATIONS -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="ill-dawn" viewBox="0 0 100 100"><rect width="100" height="100" fill="#2E4A63"/><rect y="58" width="100" height="42" fill="#3E6486"/><circle cx="70" cy="30" r="15" fill="#F5E6A8"/><circle cx="76" cy="26" r="13" fill="#2E4A63"/><circle cx="28" cy="22" r="1.6" fill="#fff"/><circle cx="44" cy="14" r="1.2" fill="#fff"/><circle cx="18" cy="38" r="1.2" fill="#fff"/><path d="M0 72 Q26 60 52 70 T100 68 V100 H0Z" fill="#294056"/></symbol>
+  <symbol id="ill-parking" viewBox="0 0 100 100"><rect width="100" height="100" fill="#DCEAF0"/><rect y="72" width="100" height="28" fill="#B9CBD4"/><rect x="14" y="20" width="30" height="34" rx="5" fill="#3E7FA6"/><text x="29" y="47" font-family="Zen Maru Gothic,sans-serif" font-size="27" font-weight="900" fill="#fff" text-anchor="middle">P</text><rect x="52" y="52" width="38" height="16" rx="5" fill="#E8734A"/><path d="M58 52 l5 -8 h16 l6 8 Z" fill="#F09873"/><circle cx="62" cy="69" r="5" fill="#2E3A40"/><circle cx="82" cy="69" r="5" fill="#2E3A40"/></symbol>
+  <symbol id="ill-plane" viewBox="0 0 100 100"><rect width="100" height="100" fill="#CDE7F2"/><circle cx="24" cy="30" r="12" fill="#fff" opacity=".9"/><circle cx="36" cy="34" r="9" fill="#fff" opacity=".9"/><circle cx="74" cy="66" r="11" fill="#fff" opacity=".85"/><circle cx="86" cy="70" r="8" fill="#fff" opacity=".85"/><g transform="rotate(-18 50 50)"><ellipse cx="50" cy="50" rx="30" ry="8" fill="#EC6E9A"/><path d="M50 50 l-18 -16 l4 0 l22 12 Z" fill="#F4A6C2"/><path d="M46 50 l-14 12 l4 0 l18 -8 Z" fill="#F4A6C2"/><path d="M74 50 l10 -3 l-2 6 Z" fill="#D94E7E"/><circle cx="40" cy="50" r="2" fill="#fff"/><circle cx="50" cy="50" r="2" fill="#fff"/></g></symbol>
+  <symbol id="ill-car" viewBox="0 0 100 100"><rect width="100" height="100" fill="#DFEFE6"/><rect y="66" width="100" height="34" fill="#B7D2C4"/><rect x="18" y="44" width="64" height="22" rx="7" fill="#3E9E8F"/><path d="M28 44 l8 -12 h28 l10 12 Z" fill="#63BEB0"/><rect x="36" y="34" width="24" height="10" rx="3" fill="#DCF2ED"/><circle cx="34" cy="68" r="7" fill="#2E3A40"/><circle cx="66" cy="68" r="7" fill="#2E3A40"/><circle cx="34" cy="68" r="3" fill="#8899A0"/><circle cx="66" cy="68" r="3" fill="#8899A0"/></symbol>
+  <symbol id="ill-resort" viewBox="0 0 100 100"><rect width="100" height="100" fill="#CDE7F2"/><path d="M0 72 L30 42 L52 72Z" fill="#8FB3B0"/><path d="M44 74 L72 40 L100 74Z" fill="#6E9A97"/><rect y="74" width="100" height="26" fill="#8FB56A"/><rect x="40" y="28" width="16" height="50" rx="2" fill="#D9E4EA"/><rect x="58" y="20" width="16" height="58" rx="2" fill="#EAF1F5"/><g fill="#8CB4CC"><rect x="43" y="34" width="3" height="4"/><rect x="49" y="34" width="3" height="4"/><rect x="43" y="44" width="3" height="4"/><rect x="49" y="44" width="3" height="4"/><rect x="43" y="54" width="3" height="4"/><rect x="49" y="54" width="3" height="4"/><rect x="61" y="28" width="3" height="4"/><rect x="67" y="28" width="3" height="4"/><rect x="61" y="38" width="3" height="4"/><rect x="67" y="38" width="3" height="4"/><rect x="61" y="48" width="3" height="4"/><rect x="67" y="48" width="3" height="4"/><rect x="61" y="58" width="3" height="4"/><rect x="67" y="58" width="3" height="4"/></g><circle cx="16" cy="74" r="10" fill="#6E9247"/><circle cx="88" cy="76" r="9" fill="#6E9247"/></symbol>
+  <symbol id="ill-pool" viewBox="0 0 100 100"><rect width="100" height="100" fill="#CDEAF2"/><circle cx="76" cy="26" r="12" fill="#F7C948"/><rect y="52" width="100" height="48" fill="#5CB4D6"/><path d="M0 52 q12 -6 24 0 t24 0 t24 0 t24 0 v6 H0Z" fill="#7FC9E4"/><path d="M0 64 q12 -6 24 0 t24 0 t24 0 t24 0 v10 H0Z" fill="#4EA3C9" opacity=".55"/><circle cx="30" cy="46" r="12" fill="#fff"/><path d="M30 34 a12 12 0 0 1 10 6 l-10 6Z" fill="#EC6E9A"/><path d="M30 58 a12 12 0 0 1 -10 -6 l10 -6Z" fill="#3E9E8F"/></symbol>
+  <symbol id="ill-luggage" viewBox="0 0 100 100"><rect width="100" height="100" fill="#E4EEF2"/><rect x="30" y="18" width="16" height="12" rx="6" fill="none" stroke="#6E8A98" stroke-width="4"/><rect x="22" y="30" width="42" height="54" rx="8" fill="#3E7FA6"/><line x1="34" y1="32" x2="34" y2="82" stroke="#2F6B8E" stroke-width="2"/><line x1="52" y1="32" x2="52" y2="82" stroke="#2F6B8E" stroke-width="2"/><rect x="30" y="47" width="26" height="6" rx="3" fill="#F2C84B"/><rect x="70" y="60" width="20" height="24" rx="4" fill="#E8734A"/></symbol>
+  <symbol id="ill-jingisukan" viewBox="0 0 100 100"><rect width="100" height="100" fill="#F3E7D4"/><ellipse cx="50" cy="80" rx="40" ry="9" fill="#D9C6A8"/><path d="M16 70 Q50 40 84 70 Z" fill="#707C82"/><path d="M24 66 Q50 48 76 66" fill="none" stroke="#4E585E" stroke-width="2"/><line x1="38" y1="58" x2="40" y2="68" stroke="#4E585E" stroke-width="1.5"/><line x1="50" y1="54" x2="50" y2="68" stroke="#4E585E" stroke-width="1.5"/><line x1="62" y1="58" x2="60" y2="68" stroke="#4E585E" stroke-width="1.5"/><ellipse cx="42" cy="62" rx="7" ry="4" fill="#C0674A"/><ellipse cx="58" cy="60" rx="7" ry="4" fill="#A84E38"/><rect x="30" y="70" width="40" height="9" rx="3" fill="#3E464C"/><path d="M44 78 q2 -7 4 -2 q2 -7 4 0 q2 -6 4 -1" fill="none" stroke="#F0A93B" stroke-width="3" stroke-linecap="round"/></symbol>
+  <symbol id="ill-raft" viewBox="0 0 100 100"><rect width="100" height="100" fill="#CDEAF2"/><rect width="100" height="46" fill="#BEE3EE"/><rect y="46" width="100" height="54" fill="#5CB4D6"/><path d="M0 46 q12 -5 24 0 t24 0 t24 0 t24 0 v8 H0Z" fill="#7FC9E4"/><path d="M0 66 q10 -5 20 0 t20 0 t20 0 t20 0 t20 0 v6 H0Z" fill="#4EA3C9" opacity=".5"/><path d="M24 64 q26 -8 52 0 q-4 10 -12 12 h-28 q-8 -2 -12 -12Z" fill="#E8734A"/><path d="M28 66 q22 -6 44 0" stroke="#B84E29" stroke-width="2" fill="none"/><circle cx="40" cy="59" r="4" fill="#3E5C68"/><circle cx="52" cy="57" r="4" fill="#2F6B8E"/><circle cx="64" cy="59" r="4" fill="#6E9247"/><rect x="33" y="46" width="3" height="18" rx="1" transform="rotate(22 34 55)" fill="#8A6B45"/></symbol>
+  <symbol id="ill-corn" viewBox="0 0 100 100"><rect width="100" height="100" fill="#EDF3DE"/><circle cx="50" cy="50" r="34" fill="#F6EFD3"/><path d="M50 82 q-16 -6 -14 -30 q10 8 14 12 Z" fill="#7FA84E"/><path d="M50 82 q16 -6 14 -30 q-10 8 -14 12 Z" fill="#93BC5E"/><rect x="40" y="20" width="20" height="52" rx="10" fill="#F2C84B"/><g fill="#E0AE34"><circle cx="46" cy="30" r="2"/><circle cx="54" cy="30" r="2"/><circle cx="46" cy="40" r="2"/><circle cx="54" cy="40" r="2"/><circle cx="50" cy="35" r="2"/><circle cx="46" cy="50" r="2"/><circle cx="54" cy="50" r="2"/><circle cx="50" cy="45" r="2"/><circle cx="46" cy="60" r="2"/><circle cx="54" cy="60" r="2"/><circle cx="50" cy="55" r="2"/><circle cx="50" cy="65" r="2"/></g></symbol>
+  <symbol id="ill-farm" viewBox="0 0 100 100"><rect width="100" height="100" fill="#2E3E52"/><circle cx="80" cy="22" r="9" fill="#F5E6A8"/><circle cx="84" cy="19" r="7" fill="#2E3E52"/><circle cx="24" cy="18" r="1.3" fill="#fff"/><circle cx="52" cy="12" r="1.1" fill="#fff"/><path d="M0 66 Q50 50 100 66 V100 H0Z" fill="#3A5540"/><path d="M0 78 Q50 66 100 78 V100 H0Z" fill="#2E4433"/><path d="M40 78 q-6 -16 10 -20 q16 4 10 20Z" fill="#F0A93B"/><path d="M44 78 q-3 -10 6 -13 q9 3 6 13Z" fill="#F7D26A"/><circle cx="26" cy="70" r="3" fill="#E8B84A" opacity=".7"/><circle cx="72" cy="72" r="2.5" fill="#E8B84A" opacity=".6"/></symbol>
+  <symbol id="ill-gondola" viewBox="0 0 100 100"><rect width="100" height="100" fill="#F6C97E"/><rect width="100" height="60" fill="#F2A65A"/><circle cx="50" cy="30" r="15" fill="#F7E08A"/><path d="M0 66 L34 40 L60 66Z" fill="#9A6B7E"/><path d="M42 68 L74 36 L100 68Z" fill="#7E5468"/><rect y="66" width="100" height="34" fill="#5E3F52"/><line x1="6" y1="20" x2="94" y2="44" stroke="#3E2A38" stroke-width="1.5"/><rect x="47" y="30" width="2" height="6" fill="#3E2A38"/><rect x="40" y="34" width="16" height="14" rx="3" fill="#E8734A"/><rect x="43" y="38" width="10" height="5" rx="1" fill="#FBE0C8"/></symbol>
+  <symbol id="ill-buggy" viewBox="0 0 100 100"><rect width="100" height="100" fill="#2E3E52"/><circle cx="76" cy="24" r="10" fill="#F5E6A8"/><circle cx="80" cy="20" r="8" fill="#2E3E52"/><circle cx="30" cy="20" r="1.4" fill="#fff"/><circle cx="50" cy="14" r="1.2" fill="#fff"/><rect y="72" width="100" height="28" fill="#26384A"/><rect x="30" y="52" width="40" height="12" rx="3" fill="#E8734A"/><path d="M34 52 q8 -12 20 0 Z" fill="#F09873"/><circle cx="36" cy="68" r="9" fill="#1E262E"/><circle cx="66" cy="68" r="9" fill="#1E262E"/><circle cx="36" cy="68" r="4" fill="#4E5A62"/><circle cx="66" cy="68" r="4" fill="#4E5A62"/><circle cx="76" cy="58" r="3" fill="#FBE6A0"/></symbol>
+  <symbol id="ill-unkai" viewBox="0 0 100 100"><rect width="100" height="34" fill="#7FA9C4"/><rect y="34" width="100" height="14" fill="#E9B489"/><rect y="48" width="100" height="10" fill="#F4C98E"/><circle cx="50" cy="42" r="13" fill="#FBE6A0"/><circle cx="50" cy="42" r="8" fill="#FCF3CE"/><path d="M24 58 L40 26 L56 58 Z" fill="#4E6E82"/><path d="M40 26 L45 36 L38 41 L46 45 L40 26Z" fill="#EDF3F6" opacity=".85"/><g fill="#FFFFFF"><ellipse cx="20" cy="62" rx="24" ry="10"/><ellipse cx="52" cy="66" rx="28" ry="12"/><ellipse cx="84" cy="62" rx="22" ry="10"/><ellipse cx="36" cy="72" rx="26" ry="12"/><ellipse cx="72" cy="74" rx="26" ry="12"/></g><g fill="#EAF2F6"><ellipse cx="30" cy="84" rx="26" ry="12"/><ellipse cx="70" cy="86" rx="28" ry="12"/></g><rect y="92" width="100" height="8" fill="#EAF2F6"/></symbol>
+  <symbol id="ill-bluepond" viewBox="0 0 100 100"><rect width="100" height="100" fill="#CFE6EE"/><rect width="100" height="44" fill="#BFE0E8"/><circle cx="80" cy="18" r="8" fill="#F7D98A"/><rect x="30" y="18" width="3" height="40" fill="#8A9AA0"/><rect x="44" y="14" width="3" height="44" fill="#9AAAB0"/><rect x="58" y="20" width="3" height="38" fill="#8A9AA0"/><rect x="70" y="16" width="3" height="42" fill="#9AAAB0"/><rect y="56" width="100" height="44" fill="#3FA9C9"/><path d="M0 56 q14 6 28 2 t28 2 t28 -2 t16 2 v6 H0Z" fill="#63C0DA" opacity=".7"/><path d="M0 70 q16 5 32 0 t32 0 t36 0 v10 H0Z" fill="#2E8FB0" opacity=".5"/><rect x="30" y="58" width="3" height="12" fill="#BFE6EE" opacity=".5"/><rect x="44" y="58" width="3" height="14" fill="#BFE6EE" opacity=".5"/></symbol>
+  <symbol id="ill-lavender" viewBox="0 0 100 100"><rect width="100" height="100" fill="#CDE7F2"/><circle cx="82" cy="22" r="9" fill="#F7C948"/><path d="M0 44 Q50 30 100 44 V60 H0Z" fill="#8FB56A"/><rect x="22" y="30" width="4" height="18" fill="#7A5A3A"/><circle cx="24" cy="28" r="10" fill="#6E9247"/><rect y="58" width="100" height="42" fill="#9B7FC4"/><path d="M0 58 h100 v6 h-100Z" fill="#B79FD8"/><path d="M0 70 h100 v4 h-100Z" fill="#8A6BB6" opacity=".6"/><path d="M0 82 h100 v4 h-100Z" fill="#8A6BB6" opacity=".6"/><path d="M0 94 h100 v4 h-100Z" fill="#8A6BB6" opacity=".6"/></symbol>
+  <symbol id="ill-city" viewBox="0 0 100 100"><rect width="100" height="100" fill="#CDE0EA"/><rect y="70" width="100" height="30" fill="#A9BEC9"/><rect x="10" y="46" width="18" height="34" fill="#7E97A6"/><rect x="72" y="40" width="20" height="40" fill="#8AA3B1"/><rect x="30" y="54" width="14" height="26" fill="#93ABB8"/><path d="M50 20 L46 78 L54 78 Z" fill="#C85A47"/><rect x="44" y="40" width="12" height="10" fill="#D9734A"/><rect x="48" y="14" width="4" height="8" fill="#C85A47"/><circle cx="50" cy="45" r="2" fill="#F2C84B"/><g fill="#EAF1F5"><rect x="14" y="52" width="3" height="4"/><rect x="20" y="52" width="3" height="4"/><rect x="76" y="46" width="3" height="4"/><rect x="83" y="46" width="3" height="4"/></g></symbol>
+  <symbol id="ill-ramen" viewBox="0 0 100 100"><rect width="100" height="100" fill="#EDE6D6"/><path d="M40 30 q3 -8 0 -12" stroke="#CBBBA0" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M56 30 q3 -8 0 -12" stroke="#CBBBA0" stroke-width="2.5" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="50" rx="34" ry="11" fill="#E4A94A"/><path d="M16 51 a34 27 0 0 0 68 0 Z" fill="#C0432F"/><ellipse cx="50" cy="50" rx="32" ry="9" fill="#E9B657"/><ellipse cx="40" cy="49" rx="6" ry="5" fill="#F5E7BC"/><ellipse cx="40" cy="49" rx="3" ry="2.6" fill="#F0B84A"/><rect x="52" y="44" width="13" height="9" rx="2" fill="#C98A55"/><rect x="33" y="41" width="3" height="11" rx="1" fill="#3E6B3E"/><rect x="59" y="40" width="9" height="3" fill="#2E4A2E"/><rect x="68" y="24" width="22" height="2.6" rx="1" transform="rotate(24 68 24)" fill="#9A6B45"/><rect x="70" y="28" width="22" height="2.6" rx="1" transform="rotate(24 70 28)" fill="#B07C50"/></symbol>
+  <symbol id="ill-sushi" viewBox="0 0 100 100"><rect width="100" height="100" fill="#E4EEF0"/><path d="M20 56 a30 25 0 0 0 60 0 Z" fill="#3E4A54"/><ellipse cx="50" cy="56" rx="30" ry="9" fill="#F3EFE6"/><path d="M31 53 l11 -3 l2 5 l-11 3 Z" fill="#EE8A5A"/><path d="M30 55 l11 -2 l0 2 l-11 2Z" fill="#F6B48C" opacity=".8"/><path d="M45 51 l11 -2 l1 5 l-11 3 Z" fill="#D24B4B"/><ellipse cx="64" cy="53" rx="6" ry="4" fill="#F0A63A"/><path d="M57 55 q7 -3 14 0 q-7 3 -14 0Z" fill="#3E5E36"/><circle cx="38" cy="47" r="1.5" fill="#E8873A"/><circle cx="43" cy="48" r="1.5" fill="#EE6E3A"/><circle cx="35" cy="49" r="1.5" fill="#F0A03A"/></symbol>
+  <symbol id="ill-plane-sunset" viewBox="0 0 100 100"><rect width="100" height="100" fill="#F6B27A"/><rect y="52" width="100" height="48" fill="#E88E5A"/><circle cx="50" cy="56" r="20" fill="#F7D98A"/><circle cx="24" cy="30" r="10" fill="#F8C89A" opacity=".8"/><circle cx="34" cy="34" r="8" fill="#F8C89A" opacity=".8"/><g transform="rotate(-16 54 40)"><ellipse cx="54" cy="40" rx="26" ry="7" fill="#5E4258"/><path d="M54 40 l-14 -12 l3 0 l18 9 Z" fill="#7E5C74"/><path d="M50 40 l-10 10 l3 0 l14 -6 Z" fill="#7E5C74"/><path d="M74 40 l9 -2 l-2 5 Z" fill="#3E2A38"/></g></symbol>
+</svg>
+
+<div class="bookwrap">
+  <button class="nav prev" id="navPrev" aria-label="前のページ">‹</button>
+  <button class="nav next" id="navNext" aria-label="次のページ">›</button>
+  <div class="book" id="book">
+
+    <!-- COVER -->
+    <section class="page cover">
+      <div class="eyebrow">SUMMER IN HOKKAIDO</div>
+      <h1>北海道 夏の旅<span class="sub">雲海・トマム・富良野・札幌 をめぐる4日間</span></h1>
+      <div class="dates"><b>7.28</b><span class="nights">火</span><span style="opacity:.7">→</span><b>7.31</b><span class="nights">金</span><span class="nights">／ 3泊4日</span></div>
+      <div class="usage">👆 タップで おすすめ ／ ☆で スタンプ<br>◀ ▶ で ページを めくってね</div>
+      <div class="gamepanel" id="gamePanel"></div>
+      <div class="cover-scene">
+        <svg viewBox="0 0 400 100" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+          <circle cx="322" cy="30" r="22" fill="#FBE6A0" opacity=".85"/>
+          <path d="M30 72 L104 20 L178 72Z" fill="#3C6B84" opacity=".5"/>
+          <path d="M150 76 L240 16 L330 76Z" fill="#2F5A74" opacity=".45"/>
+          <g fill="#ffffff"><ellipse cx="50" cy="82" rx="72" ry="20"/><ellipse cx="170" cy="88" rx="94" ry="24"/><ellipse cx="300" cy="82" rx="82" ry="22"/><ellipse cx="384" cy="90" rx="72" ry="22"/></g>
+          <g fill="#EAF3F7"><ellipse cx="110" cy="100" rx="96" ry="22"/><ellipse cx="300" cy="102" rx="104" ry="24"/></g>
+        </svg>
+      </div>
+      <div class="page-num">表紙</div>
+    </section>
+
+    <!-- DAY 1 -->
+    <section class="page">
+      <div class="day-head"><div class="day-num"><small>DAY</small>1</div><div class="day-date">7/28<span>火</span></div><div class="day-title">成田 → 新千歳 → トマム</div></div>
+      <div class="day-rule"></div>
+      <div class="timeline">
+        <div class="stop"><div class="card" data-spot="d1-home"><div class="card-body"><div class="time">4:30</div><h3>自宅を出発</h3><div class="note">まだ暗いうちに出発！</div></div><div class="thumb"><svg><use href="#ill-dawn"/></svg></div><span class="chev">詳細 ›</span></div></div>
+        <div class="stop"><div class="card" data-spot="d1-park"><div class="card-body"><div class="time">5:30</div><h3>USAパーキング 着</h3><div class="note">成田空港 第1ターミナルへ（6:00着）</div></div><div class="thumb"><svg><use href="#ill-parking"/></svg></div><span class="chev">詳細 ›</span></div></div>
+        <div class="stop sky"><div class="card" data-spot="d1-flight"><div class="card-body"><div class="time">✈️ Peach MM559便</div><div class="route">成田 <span class="arw">→</span> 新千歳</div><div class="airtime">6:50 発 ／ 8:40 着（成田 第1T）</div><span class="ref">予約 F6VZN5</span></div><div class="thumb"><svg><use href="#ill-plane"/></svg></div><span class="chev">詳細 ›</span></div></div>
+        <div class="stop corn"><div class="card" data-spot="d1-car"><div class="card-body"><div class="time">9:00</div><h3>レンタカー 受取</h3><div class="note">日本レンタカー 新千歳空港店（1F 3番付近）</div></div><div class="thumb"><svg><use href="#ill-car"/></svg></div><span class="chev">詳細 ›</span></div></div>
+        <div class="stop green"><div class="card" data-spot="d1-arrive"><div class="card-body"><div class="time">11:30 〜 12:00</div><h3>リゾナーレトマム 着</h3><div class="note">荷物をあずけてランチ</div></div><div class="thumb"><svg><use href="#ill-resort"/></svg></div><span class="chev">詳細 ›</span></div></div>
+        <div class="stop sky"><div class="card" data-spot="d1-pool"><div class="card-body"><div class="time">午後</div><h3>ミナミナビーチ</h3><div class="note">その他アクティビティでも楽しむ</div></div><div class="thumb"><svg><use href="#ill-pool"/></svg></div><span class="chev">詳細 ›</span></div></div>
+        <div class="stop corn"><div class="card" data-spot="d1-checkin"><div class="card-body"><div class="time">15:00 以降</div><h3>チェックイン</h3><div class="note">⚠️ 雲海テラスの予約を忘れずに！</div></div><div class="thumb"><svg><use href="#ill-luggage"/></svg></div><span class="chev">詳細 ›</span></div></div>
+        <div class="stop corn"><div class="card" data-spot="d1-dinner"><div class="card-body"><div class="time">夜</div><h3>ジンギスカン</h3><div class="note">21:00 おやすみ</div></div><div class="thumb"><svg><use href="#ill-jingisukan"/></svg></div><span class="chev">詳細 ›</span></div></div>
+      </div>
+      <div class="page-num">1 / 6</div>
+    </section>
+
+    <!-- DAY 2 -->
+    <section class="page">
+      <div class="day-head"><div class="day-num"><small>DAY</small>2</div><div class="day-date">7/29<span>水</span></div><div class="day-title">雲海① ＆ トマム満喫</div></div>
+      <div class="day-rule"></div>
+      <div class="timeline">
+        <div class="stop sky"><div class="card" data-spot="d2-unkai"><div class="card-body"><div class="time">4:00</div><h3>雲海テラス チャレンジ！①</h3><div class="note">早起きして いざ絶景へ</div></div><div class="thumb"><svg><use href="#ill-unkai"/></svg></div><span class="chev">詳細 ›</span></div></div>
+        <div class="stop sky"><div class="card" data-spot="d2-raft"><div class="card-body"><div class="time">8:00 〜</div><h3>空知川ラフティング</h3><div class="note">夏の川を下る！</div></div><div class="thumb"><svg><use href="#ill-raft"/></svg></div><span class="chev">詳細 ›</span></div></div>
+        <div class="stop corn"><div class="card" data-spot="d2-corn"><div class="card-body"><div class="time">12:00</div><h3>ランチ・とうきびフェス</h3></div><div class="thumb"><svg><use href="#ill-corn"/></svg></div><span class="chev">詳細 ›</span></div></div>
+        <div class="stop green"><div class="card" data-spot="d2-takibi"><div class="card-body"><h3>まきばのたきび</h3><div class="note">火を囲んでのんびり</div></div><div class="thumb"><svg><use href="#ill-farm"/></svg></div><span class="chev">詳細 ›</span></div></div>
+        <div class="stop corn"><div class="card" data-spot="d2-sora"><div class="card-body"><div class="time">17:00 〜</div><h3>SORA −天空−</h3><span class="ref">予約 R20260729-104075</span></div><div class="thumb"><svg><use href="#ill-gondola"/></svg></div><span class="chev">詳細 ›</span></div></div>
+        <div class="stop sky"><div class="card" data-spot="d2-buggy"><div class="card-body"><div class="time">夜</div><h3>夜のアクティビティ（バギー？）</h3><div class="note">21:00 おやすみ</div></div><div class="thumb"><svg><use href="#ill-buggy"/></svg></div><span class="chev">詳細 ›</span></div></div>
+      </div>
+      <div class="page-num">2 / 6</div>
+    </section>
+
+    <!-- DAY 3 -->
+    <section class="page">
+      <div class="day-head"><div class="day-num"><small>DAY</small>3</div><div class="day-date">7/30<span>木</span></div><div class="day-title">雲海② → 美瑛・富良野 → 札幌</div></div>
+      <div class="day-rule"></div>
+      <div class="timeline">
+        <div class="stop sky"><div class="card" data-spot="d3-unkai"><div class="card-body"><div class="time">4:00</div><h3>雲海テラス チャレンジ！②</h3><div class="note">昨日ダメでも、ここでリベンジ！</div></div><div class="thumb"><svg><use href="#ill-unkai"/></svg></div><span class="chev">詳細 ›</span></div></div>
+        <div class="stop"><div class="card" data-spot="d3-morning"><div class="card-body"><h3>朝寝 ／ アクティビティ？</h3><div class="note">最後のトマムをゆっくり</div></div><div class="thumb"><svg><use href="#ill-resort"/></svg></div><span class="chev">詳細 ›</span></div></div>
+        <div class="stop"><div class="card" data-spot="d3-checkout"><div class="card-body"><div class="time">11:00</div><h3>チェックアウト</h3></div><div class="thumb"><svg><use href="#ill-luggage"/></svg></div><span class="chev">詳細 ›</span></div></div>
+        <div class="stop sky"><div class="card" data-spot="d3-biei"><div class="card-body"><div class="time">13:00</div><h3>美瑛（青い池・四季彩の丘）</h3></div><div class="thumb"><svg><use href="#ill-bluepond"/></svg></div><span class="chev">詳細 ›</span></div></div>
+        <div class="stop green"><div class="card" data-spot="d3-furano"><div class="card-body"><div class="time">15:00</div><h3>富良野（ファーム富田）</h3></div><div class="thumb"><svg><use href="#ill-lavender"/></svg></div><span class="chev">詳細 ›</span></div></div>
+        <div class="stop corn"><div class="card" data-spot="d3-sapporo"><div class="card-body"><div class="time">19:00</div><h3>札幌 着・レンタカー返却</h3><div class="note">日本レンタカー 札幌駅東 〜19:00</div></div><div class="thumb"><svg><use href="#ill-car"/></svg></div><span class="chev">詳細 ›</span></div></div>
+        <div class="stop green"><div class="card" data-spot="d3-hotel"><div class="card-body"><h3>リッチモンドホテル札幌駅前</h3><div class="note">チェックイン</div></div><div class="thumb"><svg><use href="#ill-city"/></svg></div><span class="chev">詳細 ›</span></div></div>
+        <div class="stop corn"><div class="card" data-spot="d3-dinner"><div class="card-body"><div class="time">夜</div><h3>みそラーメン ／ 夜パフェ</h3><div class="note">22:00 おやすみ</div></div><div class="thumb"><svg><use href="#ill-ramen"/></svg></div><span class="chev">詳細 ›</span></div></div>
+      </div>
+      <div class="page-num">3 / 6</div>
+    </section>
+
+    <!-- DAY 4 -->
+    <section class="page">
+      <div class="day-head"><div class="day-num"><small>DAY</small>4</div><div class="day-date">7/31<span>金</span></div><div class="day-title">札幌 観光 → 帰路</div></div>
+      <div class="day-rule"></div>
+      <div class="timeline">
+        <div class="stop corn"><div class="card" data-spot="d4-asaichi"><div class="card-body"><div class="time">7:00 〜</div><h3>朝市</h3><div class="note">海鮮丼・ウニ？</div></div><div class="thumb"><svg><use href="#ill-sushi"/></svg></div><span class="chev">詳細 ›</span></div></div>
+        <div class="stop"><div class="card" data-spot="d4-checkout"><div class="card-body"><div class="time">11:00</div><h3>チェックアウト</h3></div><div class="thumb"><svg><use href="#ill-luggage"/></svg></div><span class="chev">詳細 ›</span></div></div>
+        <div class="stop sky"><div class="card" data-spot="d4-kanko"><div class="card-body"><h3>大通公園・時計台・二条市場</h3><div class="note">海鮮丼・ウニ？</div></div><div class="thumb"><svg><use href="#ill-city"/></svg></div><span class="chev">詳細 ›</span></div></div>
+        <div class="stop corn"><div class="card" data-spot="d4-lunch"><div class="card-body"><div class="time">12:00</div><h3>みそラーメン ／ スープカレー</h3></div><div class="thumb"><svg><use href="#ill-ramen"/></svg></div><span class="chev">詳細 ›</span></div></div>
+        <div class="stop sky"><div class="card" data-spot="d4-flight"><div class="card-body"><div class="time">🛬 春秋航空 SJO836便</div><div class="route">新千歳 <span class="arw">→</span> 成田</div><div class="airtime">17:00 札幌→新千歳（第3T）／ 19:20発・21:05着</div><span class="ref">予約 BKVNHZZ</span></div><div class="thumb"><svg><use href="#ill-plane-sunset"/></svg></div><span class="chev">詳細 ›</span></div></div>
+      </div>
+      <div class="page-num">4 / 6</div>
+    </section>
+
+    <!-- INFO / END -->
+    <section class="page">
+      <div class="page-title">✈️ 旅の基本情報</div>
+      <div class="info">
+        <div class="info-row"><div class="info-ico">✈️</div><div><h4>往路｜Peach MM559</h4><p>成田 第1T 6:50 → 新千歳 8:40</p><span class="ref2">予約 F6VZN5</span></div></div>
+        <div class="info-row"><div class="info-ico">🚗</div><div><h4>レンタカー｜日本レンタカー</h4><p>受取：新千歳空港店（1F 3番付近）<br>返却：札幌駅東 〜19:00　<span class="tel">☎ 050-1712-2970</span></p></div></div>
+        <div class="info-row"><div class="info-ico">🏨</div><div><h4>宿</h4><p>① リゾナーレトマム（7/28・7/29泊）<br>② リッチモンドホテル札幌駅前（7/30泊）</p></div></div>
+        <div class="info-row"><div class="info-ico">🛬</div><div><h4>復路｜春秋航空 SJO836</h4><p>新千歳 19:20 → 成田 第3T 21:05</p><span class="ref2">予約 BKVNHZZ</span></div></div>
+      </div>
+      <div class="memo">
+        <h4>🎒 持ち物メモ</h4>
+        <ul>
+          <li>雲海テラス用の防寒着・防水シューズ（夏でも早朝は寒い）</li>
+          <li>水着・タオル（ミナミナビーチ／ラフティング）</li>
+          <li>ラフティングの着替え・脱げないサンダル</li>
+          <li>日焼け止め・帽子・サングラス・虫よけ</li>
+          <li>モバイルバッテリー・充電器・ETCカード</li>
+        </ul>
+      </div>
+      <div class="end-mark">☁ 北海道 夏の旅 2026 ☁</div>
+      <div class="end-sub">いってらっしゃい。よい旅を！</div>
+      <div class="page-num">5 / 6</div>
+    </section>
+
+  </div>
+  <div class="pager-dots" id="dots"></div>
+</div>
+
+<!-- BOTTOM SHEET -->
+<div class="backdrop" id="backdrop"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+  <div class="sheet-grip"></div>
+  <div class="sheet-hero"><button class="sheet-close" id="sheetClose" aria-label="閉じる">×</button><svg id="sheetSvg" aria-hidden="true"><use id="sheetUse" href="#ill-unkai"/></svg></div>
+  <div class="sheet-scroll">
+    <div class="sheet-time" id="sheetTime"></div>
+    <h2 class="sheet-title" id="sheetTitle"></h2>
+    <p class="sheet-lead" id="sheetLead"></p>
+    <div id="sheetTips"></div>
+    <div id="sheetRefWrap"></div>
+    <div id="sheetNoteWrap"></div>
+    <div id="sheetMapsWrap"></div>
+    <div id="sheetQuiz"></div>
+    <div id="sheetStampWrap"></div>
+  </div>
+</div>
+
+<script>
+const MAP="https://www.google.com/maps/search/?api=1&query=";
+const SPOTS = {
+  "d1-home":{ill:"ill-dawn",time:"7/28（火）4:30",title:"自宅を出発",lead:"眠い時間だけど、ここから4日間の冒険がスタート！",tips:[
+    {c:"sky",h:"前夜に準備完了に",t:"荷造り・スマホとモバイルバッテリーの充電・ETCカードの差し込みは前夜のうちに。朝は積み込むだけにしておくとスムーズ。"},
+    {c:"corn",h:"最終チェック",t:"USAパーキングの予約時間、Peachの予約番号（F6VZN5）、eチケットをすぐ出せるように。"}]},
+  "d1-park":{ill:"ill-parking",time:"5:30 着（空港6:00）",title:"USAパーキング",lead:"車を預けて、送迎バスで成田空港 第1ターミナルへ。",map:[{label:"成田空港 第1ターミナル",q:"成田空港 第1ターミナル"}],tips:[
+    {c:"sky",h:"ターミナルはPeach＝第1",t:"Peach（国内線）は成田 第1ターミナル。降車場所を運転手さんに確認しておくと安心。"},
+    {c:"corn",h:"保安検査は早めに",t:"6:50発なので、1時間前を目安に保安検査を通過したい。朝は混みやすい。"}]},
+  "d1-flight":{ill:"ill-plane",time:"6:50 発 → 8:40 着",title:"Peach MM559 便",lead:"成田から新千歳へ、約1時間50分のフライト。",map:[{label:"新千歳空港",q:"新千歳空港"}],tips:[
+    {c:"sky",h:"LCCの手荷物ルール",t:"Peachは受託手荷物が有料。事前にネットで追加すると空港カウンターより割安。持込サイズ・重量も確認を。"},
+    {c:"corn",h:"到着後は国内線ターミナルへ",t:"到着後、そのまま国内線ターミナル1Fのレンタカーカウンターへ。"}]},
+  "d1-car":{ill:"ill-car",time:"9:00 レンタル開始",title:"レンタカー 受取",lead:"日本レンタカー 新千歳空港店（国内線T 1F 3番付近／☎ 050-1712-2970）。",map:[{label:"日本レンタカー 新千歳空港店",q:"日本レンタカー 新千歳空港店"}],tips:[
+    {c:"corn",h:"受取に必要なもの",t:"運転免許証と予約情報を手元に。保険内容とガソリン返却ルール（満タン返し）を確認。"},
+    {c:"sky",h:"トマムまで約100分",t:"新千歳空港からトマムは高速で約100分。ETCの差し忘れに注意して出発。"}]},
+  "d1-arrive":{ill:"ill-resort",time:"11:30 着 → 12:00 ランチ",title:"リゾナーレトマム",lead:"全室スイートの上質なホテル。まずは荷物を預けてランチへ。",map:[{label:"リゾナーレトマム",q:"リゾナーレトマム"}],tips:[
+    {c:"green",h:"荷物を預けて身軽に",t:"チェックイン前でも荷物を預かってもらえる。身軽になってランチ＆午後のアクティビティへ。"},
+    {c:"sky",h:"宿泊者は雲海ゴンドラ無料",t:"リゾナーレ／ザ・タワー宿泊者は雲海ゴンドラが無料。翌朝のチャレンジに向けて大きなメリット。"}]},
+  "d1-pool":{ill:"ill-pool",time:"7/28 午後",title:"ミナミナビーチ",lead:"ガラス張りの屋内に広がる、日本最大級の造波プール。天気に関係なく“常夏”を満喫。",map:[{label:"ミナミナビーチ",q:"星野リゾート トマム ミナミナビーチ"}],tips:[
+    {c:"sky",h:"水着とタオルを",t:"レンタルもあるが持参が確実。波のプールで初日の移動疲れをリフレッシュ。"},
+    {c:"green",h:"その他アクティビティも",t:"ファームエリアの散策など、屋外の遊びと組み合わせても。天候で柔軟に。"}]},
+  "d1-checkin":{ill:"ill-luggage",time:"15:00 以降",title:"チェックイン",lead:"お部屋へ。ここで“翌朝の雲海ゴンドラ予約”を必ず済ませておこう。",map:[{label:"リゾナーレトマム",q:"リゾナーレトマム"}],tips:[
+    {c:"corn",h:"雲海テラスの予約を忘れずに！",t:"2026年から雲海ゴンドラは事前予約制（アソビュー！）。前日17:00開始・先着順で、人気の時間は早く埋まる。到着日の夕方に翌朝ぶんを必ず確保。"},
+    {c:"sky",h:"翌日の発生確率をチェック",t:"前日15:00頃に翌朝の雲海発生確率が公式サイトで発表される。予約時間の目安に。"}]},
+  "d1-dinner":{ill:"ill-jingisukan",time:"7/28 夜",title:"ジンギスカン",lead:"北海道の夜といえばこれ！ラム肉を焼いて味わう名物料理で乾杯。",map:[{label:"星野リゾート トマム",q:"星野リゾート トマム"}],tips:[
+    {c:"corn",h:"焼き野菜も一緒に",t:"羊の脂で焼く玉ねぎやもやしが甘くて絶品。子どもには焼き加減しっかりめで。"},
+    {c:"green",h:"明日は早い！",t:"翌朝4:00の雲海チャレンジに備えて、21:00には就寝を。"}]},
+  "d2-unkai":{ill:"ill-unkai",time:"7/29 4:00",title:"雲海テラス チャレンジ！①",lead:"標高1,088m、ゴンドラで約13分。眼下に雲海が広がる、この旅いちばんの絶景ポイント。",map:[{label:"雲海テラス",q:"星野リゾート トマム 雲海テラス"}],tips:[
+    {c:"corn",h:"7月の運行は 4:30〜8:00",t:"夏期は上りゴンドラ最終4:30〜8:00。雲海が見られる確率は約40％。だから2日連続でチャレンジするのが正解！"},
+    {c:"green",h:"とにかく防寒",t:"夏でも早朝は10℃を下回る日が。フリースやダウン＋風を通さない上着、朝露で濡れるので防水シューズがあると快適。"},
+    {c:"sky",h:"雲Cafeもお楽しみ",t:"「雲ケーキ」や雲海ソーダが味わえる雲Cafe、Cloud Barなどの展望スポットも忘れずに。"}]},
+  "d2-raft":{ill:"ill-raft",time:"8:00 〜",title:"空知川ラフティング",lead:"夏の水量たっぷりの川をボートで下る、爽快なアウトドア体験。",map:[{label:"空知川（南富良野）",q:"空知川 ラフティング 南富良野"}],tips:[
+    {c:"sky",h:"濡れる前提の服装で",t:"水着や速乾の服の上に参加。ウェットスーツやライフジャケットはツアーで用意されることが多い。着替え・タオル・脱げないサンダルを。"},
+    {c:"corn",h:"川の上は冷える",t:"上がった後に羽織れるものがあると快適。集合時間は厳守で。"}]},
+  "d2-corn":{ill:"ill-corn",time:"12:00",title:"ランチ・とうきびフェス",lead:"採れたてのとうもろこし（とうきび）など、北海道の夏の味覚を味わうお楽しみ。",map:[{label:"星野リゾート トマム",q:"星野リゾート トマム"}],tips:[
+    {c:"corn",h:"焼き・茹で 食べ比べ",t:"焼きの香ばしさと茹での甘さ、両方楽しんでみて。"},
+    {c:"green",h:"のんびりペースで",t:"午前のラフティングの後なので、無理せずゆったり。"}]},
+  "d2-takibi":{ill:"ill-farm",time:"7/29 夕〜夜",title:"まきばのたきび",lead:"牧場エリアで、火を囲んでのんびり過ごす夜のひととき。",map:[{label:"トマム ファームエリア",q:"星野リゾート トマム ファームエリア"}],tips:[
+    {c:"corn",h:"焚き火でほっこり",t:"マシュマロ焼きなど、たき火ならではの体験を楽しめることも。"},
+    {c:"green",h:"夜は冷える",t:"標高が高いので、夜は一枚多めに羽織って。"}]},
+  "d2-sora":{ill:"ill-gondola",time:"17:00 〜",title:"SORA −天空−",lead:"予約済みの、夕方の山上体験。夕暮れの空と景色を楽しむ特別な時間。",map:[{label:"星野リゾート トマム",q:"星野リゾート トマム"}],tips:[
+    {c:"sky",h:"山上は冷える",t:"夕方はぐっと冷え込むことも。羽織りものを一枚持って向かおう。"},
+    {c:"corn",h:"予約内容を再確認",t:"予約番号 R20260729-104075 で、集合場所・開始時間・内容を当日あらためて確認しておくと安心。"}]},
+  "d2-buggy":{ill:"ill-buggy",time:"7/29 夜",title:"夜のアクティビティ（バギー？）",lead:"夜の森をバギーで走る、ドキドキのナイトアクティビティ。",map:[{label:"星野リゾート トマム",q:"星野リゾート トマム"}],tips:[
+    {c:"sky",h:"予約・年齢制限を確認",t:"夜のアクティビティは定員・年齢制限があることも。事前予約と対象年齢をチェック。"},
+    {c:"green",h:"防寒と虫よけ",t:"夜は冷えるので上着を。虫よけもあると安心。21:00には就寝を。"}]},
+  "d3-unkai":{ill:"ill-unkai",time:"7/30 4:00",title:"雲海テラス チャレンジ！②",lead:"2回目のチャレンジ。昨日見られなくても、今日リベンジのチャンス！",map:[{label:"雲海テラス",q:"星野リゾート トマム 雲海テラス"}],tips:[
+    {c:"corn",h:"前夜に予約を",t:"この日ぶんのゴンドラ予約は、前日（7/29）17:00から。忘れずに確保しておこう。"},
+    {c:"sky",h:"チェックアウト前に",t:"11:00チェックアウトなので、早朝に行って戻ってくる流れ。荷造りは前夜に済ませておくとラク。"},
+    {c:"green",h:"寒さ対策は今日も",t:"防寒着・防水シューズを忘れずに。日の出後は日差しが強いので帽子・サングラスも。"}]},
+  "d3-morning":{ill:"ill-resort",time:"7/30 朝",title:"朝寝 ／ アクティビティ？",lead:"雲海のあとは、ひと眠りするもよし、最後のトマムを遊ぶもよし。",map:[{label:"リゾナーレトマム",q:"リゾナーレトマム"}],tips:[
+    {c:"sky",h:"体力と相談して",t:"早起きが続くので、無理せず休むのも大事。元気なら朝のアクティビティをもうひとつ。"},
+    {c:"green",h:"チェックアウト準備",t:"11:00に向けて、荷物と部屋の忘れ物を確認。"}]},
+  "d3-checkout":{ill:"ill-luggage",time:"11:00",title:"チェックアウト",lead:"トマムを満喫したら、美瑛・富良野へドライブ出発！",map:[{label:"リゾナーレトマム",q:"リゾナーレトマム"}],tips:[
+    {c:"corn",h:"忘れ物チェック",t:"充電器・水着・冷蔵庫の中身を最終確認。"},
+    {c:"sky",h:"美瑛まではドライブ",t:"トマムから美瑛方面へ。給油タイミングも意識して。"}]},
+  "d3-biei":{ill:"ill-bluepond",time:"13:00",title:"美瑛（青い池・四季彩の丘）",lead:"“美瑛ブルー”の神秘的な青い池と、色とりどりの花畑が広がる四季彩の丘へ。",map:[{label:"青い池",q:"白金 青い池 美瑛"},{label:"四季彩の丘",q:"四季彩の丘 美瑛"}],tips:[
+    {c:"sky",h:"青い池",t:"立ち枯れた木と青い水面が幻想的。MacBookの壁紙にもなった絶景スポット。晴れの日はより鮮やかな青に。"},
+    {c:"green",h:"四季彩の丘",t:"大雪山連峰を背景に、7haの花畑がストライプに広がる。カートやノロッコ号で回るのも楽しい。"},
+    {c:"corn",h:"畑はマナーを守って",t:"丘の畑は農家さんの私有地。立ち入らず、道路から撮影を。"}]},
+  "d3-furano":{ill:"ill-lavender",time:"15:00",title:"富良野（ファーム富田）",lead:"日本最大級のラベンダー畑。7月はまさに見頃のピーク！",map:[{label:"ファーム富田",q:"ファーム富田 中富良野"}],tips:[
+    {c:"green",h:"見頃はいまが最高",t:"ラベンダーの見頃ピークは7月中旬〜下旬。むらさきの絨毯と甘い香りに包まれる。入園無料。"},
+    {c:"corn",h:"ラベンダーソフト",t:"名物のラベンダーソフト（アイス）は必食。散策は全部の畑を巡ると1.5〜2時間ほど。"},
+    {c:"sky",h:"混雑に注意",t:"人気スポットで駐車場も混みやすい。時間に余裕をもって。"}]},
+  "d3-sapporo":{ill:"ill-car",time:"19:00",title:"札幌 着・レンタカー返却",lead:"富良野から札幌へ。19:00までにレンタカーを返却。",map:[{label:"日本レンタカー 札幌駅東",q:"日本レンタカー 札幌駅東"}],tips:[
+    {c:"corn",h:"満タン返しの給油を先に",t:"返却前に近くのガソリンスタンドで給油。営業所近くの店を地図で確認しておくとスムーズ。"},
+    {c:"sky",h:"返却は札幌駅東",t:"返却時刻に間に合うよう富良野を早めに出発。ホテルに先に寄れたら荷物を置いても。"}]},
+  "d3-hotel":{ill:"ill-city",time:"チェックイン",title:"リッチモンドホテル札幌駅前",lead:"札幌駅至近で夜の街歩きにも便利。北海道グルメを楽しむ夜。",map:[{label:"リッチモンドホテル札幌駅前",q:"リッチモンドホテル札幌駅前"}],tips:[
+    {c:"corn",h:"みそラーメン",t:"味噌ラーメン発祥の札幌。名店ぞろいで、駅チカで探しやすい。"},
+    {c:"sky",h:"“札幌夜パフェ”文化",t:"札幌には〆にパフェを楽しむ夜パフェ文化が。専門店も多いので、ラーメンのあとのお楽しみに。"}]},
+  "d3-dinner":{ill:"ill-ramen",time:"7/30 夜",title:"みそラーメン ／ 夜パフェ",lead:"札幌の夜ごはん。あったかい味噌ラーメンと、〆の夜パフェで大満足。",map:[{label:"札幌駅 味噌ラーメン",q:"札幌駅 味噌ラーメン"},{label:"札幌 夜パフェ",q:"札幌 夜パフェ"}],tips:[
+    {c:"corn",h:"駅前で手軽に",t:"松尾ジンギスカン札幌駅前店や、スープカレーGARAKUなど駅周辺に人気店が集中。"},
+    {c:"green",h:"22:00 おやすみ",t:"翌朝は朝市へ。ほどよいところで切り上げて。"}]},
+  "d4-asaichi":{ill:"ill-sushi",time:"7/31 7:00 〜",title:"朝市",lead:"朝いちばんは市場へ。とれたての海鮮丼で北海道グルメの締めくくり。",map:[{label:"二条市場",q:"二条市場 札幌"},{label:"札幌場外市場",q:"札幌場外市場"}],tips:[
+    {c:"corn",h:"7:00からオープン",t:"朝早くから営業。ウニ・いくら・カニなど、のっけ盛りの海鮮丼が名物。"},
+    {c:"sky",h:"二条市場も近い",t:"札幌中心部の二条市場でも新鮮な海鮮丼が味わえる。食べ歩きも楽しい。"}]},
+  "d4-checkout":{ill:"ill-luggage",time:"11:00",title:"チェックアウト",lead:"荷物をまとめて、午前は札幌の街を観光。",map:[{label:"リッチモンドホテル札幌駅前",q:"リッチモンドホテル札幌駅前"}],tips:[
+    {c:"corn",h:"お土産は駅・空港で",t:"白い恋人・ロイズ・六花亭などの定番は札幌駅や新千歳空港でまとめ買いが便利。"},
+    {c:"sky",h:"荷物を預けて身軽に",t:"チェックアウト後もフロントで荷物を預かってもらえることが多い。手ぶらで街歩きを。"}]},
+  "d4-kanko":{ill:"ill-city",time:"7/31 午前",title:"大通公園・時計台・二条市場",lead:"札幌の定番スポットを歩いてめぐる、街ぶらタイム。",map:[{label:"大通公園",q:"大通公園 札幌"},{label:"札幌市時計台",q:"札幌市時計台"},{label:"二条市場",q:"二条市場 札幌"}],tips:[
+    {c:"sky",h:"大通公園・時計台",t:"街の中心に広がる大通公園と、レトロな札幌市時計台。写真スポットとしても定番。"},
+    {c:"corn",h:"二条市場でウニ",t:"新鮮な海鮮丼やウニがおすすめ。食べ歩きグルメも楽しい。"}]},
+  "d4-lunch":{ill:"ill-ramen",time:"12:00",title:"みそラーメン ／ スープカレー",lead:"最後のランチは札幌の2大名物から。あったか味噌ラーメンか、スパイシーなスープカレーか。",map:[{label:"札幌 スープカレー",q:"札幌 スープカレー"}],tips:[
+    {c:"corn",h:"スープカレー",t:"札幌発祥のご当地グルメ。ゴロっと野菜やチキンが入って、辛さも選べる。子どもは辛さ控えめで。"},
+    {c:"sky",h:"時間に余裕をもって",t:"17:00に札幌を出発して新千歳へ。ランチは早めに切り上げると安心。"}]},
+  "d4-flight":{ill:"ill-plane-sunset",time:"19:20 発 → 21:05 着",title:"春秋航空 SJO836 便",lead:"17:00に札幌を出発して新千歳空港へ。夕暮れのフライトで旅の締めくくり。",map:[{label:"新千歳空港",q:"新千歳空港"}],tips:[
+    {c:"sky",h:"LCCの手荷物を再確認",t:"春秋航空も受託手荷物のルールに注意。予約番号 BKVNHZZ で規定を確認し、超過にならないようパッキングを。"},
+    {c:"corn",h:"到着は成田 第3ターミナル",t:"第3ターミナル着。帰りの交通手段（駐車場送迎など）の最終便の時間を事前に確認しておくと安心。"}]}
+};
+
+const QUIZ = {
+  "d1-flight":{q:"ひこうきで なりた から しんちとせ まで、どれくらい かかる？",options:["やく2じかん","やく5ふん","やく10じかん"],answer:0,fun:"1じかん50ぷんくらい。あっというまに 北海道！"},
+  "d1-arrive":{q:"トマムは 北海道の どのあたりに ある？",options:["まんなか","うみのなか","そらのうえ"],answer:0,fun:"北海道の ほぼ まんなかに ある 大きな リゾートだよ。"},
+  "d1-pool":{q:"ミナミナビーチは どんな プール？",options:["なみが でる","こおりの","チョコの"],answer:0,fun:"日本さいだいきゅうの “なみ” が でる 屋内プール！"},
+  "d1-dinner":{q:"ジンギスカンは なんの おにく？",options:["ひつじ","とり","さかな"],answer:0,fun:"ラム（こひつじ）の おにく。北海道の めいぶつだよ。"},
+  "d2-unkai":{q:"うんかい（雲海）は なにが うみみたいに 見える？",options:["くも","こおり","すな"],answer:0,fun:"あさ、くもが うみのように ひろがる ぜっけい！ 見られるのは やく40％の チャンス。"},
+  "d2-raft":{q:"ラフティングで のる のりものは？",options:["ゴムボート","でんしゃ","ロケット"],answer:0,fun:"みんなで パドルを こいで、川を くだって いくよ。"},
+  "d2-corn":{q:"“とうきび”って なんの こと？",options:["とうもろこし","さかな","やま"],answer:0,fun:"北海道では とうもろこしを “とうきび” と よぶんだ。"},
+  "d2-buggy":{q:"バギーは どんな のりもの？",options:["タイヤの大きい車","ふね","ひこうき"],answer:0,fun:"でこぼこ道も すすめる タイヤの大きい車。夜の森を はしるよ！"},
+  "d3-biei":{q:"美瑛（びえい）の “青い池” は なにいろ？",options:["あお","まっか","きんいろ"],answer:0,fun:"すいめんが きれいな あお！ “美瑛ブルー” と よばれるよ。"},
+  "d3-furano":{q:"7がつに ファーム富田で さきほこる ラベンダーは なにいろ？",options:["むらさき","みどり","くろ"],answer:0,fun:"むらさきの じゅうたんみたい！ いいにおいも するよ。"},
+  "d3-dinner":{q:"札幌（さっぽろ）はっしょうの ラーメンの あじは？",options:["みそ","チョコ","いちご"],answer:0,fun:"あったかい みそラーメンは 札幌が はっしょう！"},
+  "d4-asaichi":{q:"朝市で 食べられる、きいろくて とげとげの かいさんぶつは？",options:["ウニ","りんご","たまねぎ"],answer:0,fun:"とれたての ウニは とろっと あまい！ 海鮮丼で どうぞ。"},
+  "d4-flight":{q:"北海道の おみやげ “白い恋人” は なに？",options:["クッキー","おもちゃ","ぼうし"],answer:0,fun:"サクサクの クッキーに チョコを はさんだ おかしだよ。"}
+};
+
+const SAVE_KEY='hokkaido2026_game_v2';try{localStorage.removeItem('hokkaido2026_game');}catch(e){}
+function loadState(){try{const r=localStorage.getItem(SAVE_KEY);if(r){const o=JSON.parse(r);return{stamps:new Set(o.stamps||[]),quiz:new Set(o.quiz||[])};}}catch(e){}return{stamps:new Set(),quiz:new Set()};}
+const _s=loadState();let stamps=_s.stamps, quizDone=_s.quiz;
+function saveState(){try{localStorage.setItem(SAVE_KEY,JSON.stringify({stamps:[...stamps],quiz:[...quizDone]}));}catch(e){}}
+const TOTAL=Object.keys(SPOTS).length, QTOTAL=Object.keys(QUIZ).length;
+
+const gamePanel=document.getElementById('gamePanel');
+gamePanel.innerHTML='<h4>🗺️ たびの スタンプラリー</h4>'+
+  '<div class="gp-sub">行った ばしょを タップして、☆で スタンプを あつめよう！クイズも あるよ。</div>'+
+  '<div class="gp-bar"><div class="gp-fill" id="gpFill"></div></div>'+
+  '<div class="gp-count"><span id="gpStamp"></span><span id="gpQuiz"></span></div>'+
+  '<div class="gp-badge" id="gpBadge">🎉 ぜんぶ まわったね！たびの たつじん！</div>';
+const gpFill=document.getElementById('gpFill'),gpStamp=document.getElementById('gpStamp'),gpQuiz=document.getElementById('gpQuiz'),gpBadge=document.getElementById('gpBadge');
+let wasComplete=stamps.size>=TOTAL;
+function updateProgress(){const n=stamps.size;gpFill.style.width=(n/TOTAL*100)+'%';gpStamp.textContent='⭐ スタンプ '+n+'/'+TOTAL;gpQuiz.textContent='🧩 クイズ '+quizDone.size+'/'+QTOTAL;const c=n>=TOTAL;gpBadge.classList.toggle('show',c);if(c&&!wasComplete)confetti();wasComplete=c;}
+function confetti(){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;const cs=['#F0C24A','#7FBBD9','#8FCB7A','#EC6E9A','#9B7FC4'];for(let i=0;i<90;i++){const c=document.createElement('div');c.className='confetti';c.style.left=Math.random()*100+'vw';c.style.background=cs[i%cs.length];c.style.animationDelay=(Math.random()*0.6)+'s';c.style.transform='rotate('+(Math.random()*360)+'deg)';document.body.appendChild(c);setTimeout(()=>c.remove(),2800);}}
+function toggleStamp(k){if(stamps.has(k))stamps.delete(k);else stamps.add(k);saveState();updateCard(k);updateProgress();}
+function updateCard(k){const card=document.querySelector('.card[data-spot="'+k+'"]');if(!card)return;const on=stamps.has(k);const sb=card.querySelector('.stampbtn');if(sb){sb.classList.toggle('done',on);sb.textContent=on?'★':'☆';}const ov=card.querySelector('.thumb-stamp');if(ov)ov.style.display=on?'grid':'none';if(currentKey===k){const bs=document.getElementById('bigstampbtn');if(bs){bs.className='bigstamp'+(on?' done':'');bs.textContent=on?'✓ スタンプ ゲット！（もう一度で とりけし）':'⭐ この ばしょの スタンプを おす！';}}}
+
+const backdrop=document.getElementById('backdrop'),sheet=document.getElementById('sheet'),sheetUse=document.getElementById('sheetUse'),sheetTime=document.getElementById('sheetTime'),sheetTitle=document.getElementById('sheetTitle'),sheetLead=document.getElementById('sheetLead'),sheetTips=document.getElementById('sheetTips'),sheetRefWrap=document.getElementById('sheetRefWrap'),sheetNoteWrap=document.getElementById('sheetNoteWrap'),sheetMapsWrap=document.getElementById('sheetMapsWrap'),sheetQuiz=document.getElementById('sheetQuiz'),sheetStampWrap=document.getElementById('sheetStampWrap'),sheetScroll=sheet.querySelector('.sheet-scroll');
+let lastFocused=null,currentKey=null;
+function renderQuiz(k){const q=QUIZ[k];if(!q){sheetQuiz.innerHTML='';return;}const solved=quizDone.has(k);sheetQuiz.innerHTML='<div class="quiz"><div class="quiz-q">🧩 クイズ！ '+q.q+'</div><div class="quiz-opts">'+q.options.map((o,i)=>'<button class="quiz-opt" data-i="'+i+'">'+o+'</button>').join('')+'</div><div class="quiz-fb"></div></div>';const fb=sheetQuiz.querySelector('.quiz-fb'),opts=sheetQuiz.querySelectorAll('.quiz-opt');if(solved){opts.forEach((b,i)=>{b.disabled=true;if(i===q.answer)b.classList.add('correct');});fb.className='quiz-fb ok';fb.textContent='⭕ クリアずみ！ '+q.fun;}opts.forEach(btn=>btn.addEventListener('click',()=>{const i=+btn.dataset.i;if(i===q.answer){btn.classList.add('correct');opts.forEach(b=>b.disabled=true);fb.className='quiz-fb ok';fb.textContent='⭕ せいかい！ '+q.fun;if(!quizDone.has(k)){quizDone.add(k);saveState();updateProgress();}}else{btn.classList.add('wrong');fb.className='quiz-fb ng';fb.textContent='❌ ざんねん！ もういちど！';setTimeout(()=>btn.classList.remove('wrong'),450);}}));}
+function openSheet(k){const d=SPOTS[k];if(!d)return;currentKey=k;lastFocused=document.activeElement;sheetUse.setAttribute('href','#'+d.ill);sheetTime.textContent=d.time||'';sheetTitle.textContent=d.title||'';sheetLead.textContent=d.lead||'';sheetTips.innerHTML=(d.tips||[]).map(t=>'<div class="tip h-'+(t.c||'sky')+'"><h5>'+t.h+'</h5><p>'+t.t+'</p></div>').join('');sheetRefWrap.innerHTML=d.ref?'<div class="sheet-ref">'+d.ref+'</div>':'';sheetNoteWrap.innerHTML=d.note?'<div class="sheet-note">'+d.note+'</div>':'';sheetMapsWrap.innerHTML=(d.map&&d.map.length)?'<div class="sheet-maps">'+d.map.map(m=>'<a class="map-link" target="_blank" rel="noopener" href="'+MAP+encodeURIComponent(m.q)+'">🗺️ '+m.label+'</a>').join('')+'</div>':'';renderQuiz(k);const on=stamps.has(k);sheetStampWrap.innerHTML='<button class="bigstamp'+(on?' done':'')+'" id="bigstampbtn">'+(on?'✓ スタンプ ゲット！（もう一度で とりけし）':'⭐ この ばしょの スタンプを おす！')+'</button>';document.getElementById('bigstampbtn').addEventListener('click',()=>toggleStamp(k));sheetScroll.scrollTop=0;backdrop.classList.add('open');sheet.classList.add('open');document.body.style.overflow='hidden';document.getElementById('sheetClose').focus();}
+function closeSheet(){backdrop.classList.remove('open');sheet.classList.remove('open');document.body.style.overflow='';currentKey=null;if(lastFocused)lastFocused.focus();}
+
+document.querySelectorAll('.card[data-spot]').forEach(card=>{const k=card.dataset.spot,on=stamps.has(k);const sb=document.createElement('button');sb.type='button';sb.className='stampbtn'+(on?' done':'');sb.setAttribute('aria-label','スタンプ');sb.textContent=on?'★':'☆';sb.addEventListener('click',e=>{e.stopPropagation();toggleStamp(k);});card.insertBefore(sb,card.firstChild);const thumb=card.querySelector('.thumb');if(thumb){const ov=document.createElement('div');ov.className='thumb-stamp';ov.innerHTML='<span>OK!</span>';ov.style.display=on?'grid':'none';thumb.appendChild(ov);}card.setAttribute('tabindex','0');card.setAttribute('role','button');card.addEventListener('click',()=>openSheet(k));card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openSheet(k);}});});
+document.getElementById('sheetClose').addEventListener('click',closeSheet);backdrop.addEventListener('click',closeSheet);document.addEventListener('keydown',e=>{if(e.key==='Escape'&&sheet.classList.contains('open'))closeSheet();});
+updateProgress();
+
+/* ===== BOOK PAGER ===== */
+const book=document.getElementById('book'),pages=[...book.querySelectorAll('.page')],navPrev=document.getElementById('navPrev'),navNext=document.getElementById('navNext'),dotsWrap=document.getElementById('dots');
+pages.forEach((p,i)=>{const d=document.createElement('button');d.className='dot'+(i===0?' active':'');d.setAttribute('aria-label',(i+1)+'ページ目へ');d.addEventListener('click',()=>go(i));dotsWrap.appendChild(d);});
+const dots=[...dotsWrap.children];
+function curIndex(){return Math.round(book.scrollLeft/book.clientWidth);}
+function go(i){i=Math.max(0,Math.min(pages.length-1,i));book.scrollTo({left:i*book.clientWidth,behavior:'smooth'});}
+function syncNav(){const i=curIndex();navPrev.disabled=i<=0;navNext.disabled=i>=pages.length-1;dots.forEach((d,j)=>d.classList.toggle('active',j===i));}
+navPrev.addEventListener('click',()=>go(curIndex()-1));
+navNext.addEventListener('click',()=>go(curIndex()+1));
+let st;book.addEventListener('scroll',()=>{clearTimeout(st);st=setTimeout(syncNav,80);});
+window.addEventListener('resize',()=>go(curIndex()));
+syncNav();
+
+/* ===== LOGIN GATE ===== */
+(function(){
+  const gate=document.getElementById('gate'),gift=document.getElementById('gift'),passDots=document.getElementById('passDots').children,keypad=document.getElementById('keypad'),gateMsg=document.getElementById('gateMsg');
+  const EXPECTED=String.fromCharCode(50,50,51,53);
+  let entered='';
+  document.body.style.overflow='hidden';
+  ['1','2','3','4','5','6','7','8','9','','0','⌫'].forEach(k=>{const b=document.createElement('button');if(k===''){b.className='key ghost';b.disabled=true;b.setAttribute('aria-hidden','true');}else{b.className='key';b.textContent=k;b.addEventListener('click',()=>press(k));}keypad.appendChild(b);});
+  function draw(){for(let i=0;i<4;i++)passDots[i].classList.toggle('on',i<entered.length);}
+  function press(k){
+    if(gift.classList.contains('open'))return;
+    if(k==='⌫'){entered=entered.slice(0,-1);gateMsg.textContent='';draw();return;}
+    if(entered.length>=4)return;
+    entered+=k;draw();
+    if(entered.length===4)setTimeout(check,150);
+  }
+  function check(){
+    if(entered===EXPECTED)success();
+    else{gate.classList.add('shake');gateMsg.textContent='ちがうよ！ もういちど';setTimeout(()=>{gate.classList.remove('shake');entered='';draw();},500);}
+  }
+  function success(){
+    gateMsg.textContent='ようこそ！ ✨';
+    gift.classList.add('open');
+    if(typeof confetti==='function')confetti();
+    const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+    setTimeout(()=>{gate.classList.add('gone');document.body.style.overflow='';if(typeof syncNav==='function')syncNav();setTimeout(()=>{gate.style.display='none';},600);},reduce?250:1600);
+  }
+  document.addEventListener('keydown',e=>{if(gate.style.display==='none'||gate.classList.contains('gone'))return;if(/^[0-9]$/.test(e.key))press(e.key);else if(e.key==='Backspace')press('⌫');});
+  draw();
+})();
+</script>
+</body>
+</html>
