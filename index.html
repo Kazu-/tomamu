@@ -403,5 +403,45 @@ function initAfterUnlock(){
   draw();
 })();
 </script>
+<script>
+/* ===== FAMILY SYNC (Firebase Realtime Database) ===== */
+(function(){
+  const firebaseConfig = {
+    apiKey: "AIzaSyB1i21_dLhcMylCfY7fP7r0n8ZGqfGdZGs",
+    authDomain: "hokkaido2026-c6588.firebaseapp.com",
+    databaseURL: "https://hokkaido2026-c6588-default-rtdb.firebaseio.com",
+    projectId: "hokkaido2026-c6588",
+    storageBucket: "hokkaido2026-c6588.firebasestorage.app",
+    messagingSenderId: "599901530258",
+    appId: "1:599901530258:web:bf37551e7b8af928191e4b"
+  };
+  let pushRemote=()=>{};
+  function mergeRemote(remote){
+    if(!remote)return;
+    const remoteStamps=remote.stamps||[], remoteQuiz=remote.quiz||[];
+    remoteStamps.forEach(k=>stamps.add(k));
+    remoteQuiz.forEach(k=>quizDone.add(k));
+    let localHasExtra=false;
+    for(const k of stamps) if(!remoteStamps.includes(k)) localHasExtra=true;
+    for(const k of quizDone) if(!remoteQuiz.includes(k)) localHasExtra=true;
+    try{localStorage.setItem(SAVE_KEY,JSON.stringify({stamps:[...stamps],quiz:[...quizDone]}));}catch(e){}
+    Object.keys(SPOTS).forEach(k=>{ if(typeof updateCard==='function') updateCard(k); });
+    if(typeof updateProgress==='function') updateProgress();
+    if(typeof renderQuiz==='function' && currentKey) renderQuiz(currentKey);
+    if(localHasExtra) pushRemote();
+  }
+  import('https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js').then(({initializeApp})=>
+    import('https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js').then(({getDatabase,ref,onValue,set})=>{
+      const app=initializeApp(firebaseConfig);
+      const db=getDatabase(app);
+      const progressRef=ref(db,'progress');
+      pushRemote=function(){ try{ set(progressRef,{stamps:[...stamps],quiz:[...quizDone]}).catch(()=>{}); }catch(e){} };
+      onValue(progressRef, snap=>{ mergeRemote(snap.val()); });
+      const _origSave=saveState;
+      saveState=function(){ _origSave(); pushRemote(); };
+    })
+  ).catch(()=>{ /* offline or blocked: silently keep working with local-only progress */ });
+})();
+</script>
 </body>
 </html>
